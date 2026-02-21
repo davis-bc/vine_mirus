@@ -1,4 +1,4 @@
-# vine_mirus
+# vine-mirus
 
 **Viral metagenome discovery workflow** — an end-to-end Snakemake pipeline for
 identifying, annotating, and quantifying viral contigs in metagenomic samples.
@@ -7,7 +7,7 @@ identifying, annotating, and quantifying viral contigs in metagenomic samples.
 
 ## Overview
 
-vine_mirus assembles paired-end reads (or accepts pre-assembled contigs), screens
+vine-mirus assembles paired-end reads (or accepts pre-assembled contigs), screens
 them through three complementary viral detection tools, fuses their scores into a
 single evidence-weighted probability, assigns NCBI taxonomy, assesses genome
 completeness, and reports per-contig abundances across all samples.
@@ -63,8 +63,8 @@ conda activate snakemake
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-org/vine_mirus.git
-cd vine_mirus
+git clone https://github.com/davis-bc/vine-mirus.git
+cd vine-mirus
 
 # 2. Create your sample sheet
 cp config/samples.tsv config/my_samples.tsv
@@ -145,7 +145,7 @@ Database paths are automatically set to `databases/` and require no editing.
 
 ## Databases
 
-Databases are downloaded automatically the first time vine_mirus runs in
+Databases are downloaded automatically the first time vine-mirus runs in
 production mode (`test_mode: false`). They are stored in `databases/` at the
 repository root and reused across all subsequent runs.
 
@@ -289,7 +289,7 @@ for a real production run.
 
 ## Conda Environments
 
-vine_mirus uses 6 minimal conda environments:
+vine-mirus uses 6 minimal conda environments:
 
 | Environment | Tools |
 |-------------|-------|
@@ -306,7 +306,7 @@ Environments are built automatically on first use by Snakemake (`--use-conda`).
 
 ## Citation
 
-If you use vine_mirus in your research, please cite the individual tools:
+If you use vine-mirus in your research, please cite the individual tools:
 
 - **geNomad**: Camargo *et al.*, Nature Biotechnology (2023)
 - **VirSorter2**: Guo *et al.*, Microbiome (2021)
