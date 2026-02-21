@@ -1,0 +1,9 @@
+executor: slurm
+default-resources:
+  slurm_partition: "main"
+  mem_mb: 8000
+  runtime: 60        # minutes
+  tasks: 1
+jobs: 200
+latency-wait: 60
+use-conda: true

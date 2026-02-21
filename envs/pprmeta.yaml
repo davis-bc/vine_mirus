@@ -1,0 +1,13 @@
+name: pprmeta
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.8,<3.11
+  - tensorflow>=2.4
+  - biopython>=1.79
+  - pandas>=2.0
+  - numpy
+  - pip
+  - pip:
+    - h5py

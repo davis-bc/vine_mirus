@@ -1,0 +1,60 @@
+import pandas as pd
+from pathlib import Path
+
+configfile: "config/config.yaml"
+
+# ── Sample table ───────────────────────────────────────────────────────────────
+# Supported columns:
+#   sample | r1 | r2            → QC + assembly + viral detection + abundance
+#   sample | contigs            → viral detection only (no QC, assembly, or abundance)
+#   sample | r1 | r2 | contigs  → use provided contigs but still run QC for abundance
+
+samples_df = pd.read_csv(config.get("samples", "config/samples.tsv"), sep="\t", index_col="sample")
+SAMPLES = samples_df.index.tolist()
+
+# Samples that need fastp QC (have reads)
+READS_SAMPLES = [
+    s for s in SAMPLES
+    if "r1" in samples_df.columns and pd.notna(samples_df.loc[s].get("r1", float("nan")))
+]
+
+# Samples that need de-novo assembly (have reads but no provided contigs)
+ASSEMBLE_SAMPLES = [
+    s for s in READS_SAMPLES
+    if not ("contigs" in samples_df.columns and pd.notna(samples_df.loc[s].get("contigs", float("nan"))))
+]
+
+
+def get_r1(wildcards):
+    return samples_df.loc[wildcards.sample, "r1"]
+
+def get_r2(wildcards):
+    return samples_df.loc[wildcards.sample, "r2"]
+
+def get_contigs_path(sample):
+    """Return the path to assembled/provided contigs for a sample."""
+    row = samples_df.loc[sample]
+    if "contigs" in samples_df.columns and pd.notna(row.get("contigs", float("nan"))):
+        return str(row["contigs"])
+    return f"results/samples/{sample}/assembly/{sample}_contigs.fa"
+
+def get_contigs(wildcards):
+    return get_contigs_path(wildcards.sample)
+
+
+include: "rules/databases.smk"
+include: "rules/fastp.smk"
+include: "rules/megahit.smk"
+include: "rules/genomad.smk"
+include: "rules/virsorter2.smk"
+include: "rules/pprmeta.smk"
+include: "rules/evidence_score.smk"
+include: "rules/taxonomy_checkv.smk"
+include: "rules/coverm.smk"
+include: "rules/summary.smk"
+
+
+rule all:
+    input:
+        "results/viral_contigs_abundance.tsv",
+        "results/viral_contigs.fa",

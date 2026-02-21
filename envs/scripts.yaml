@@ -1,0 +1,11 @@
+name: scripts
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.10
+  - pandas>=2.0
+  - biopython>=1.81
+  - pip
+  - pip:
+    - taxopy>=0.12

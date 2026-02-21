@@ -1,0 +1,15 @@
+name: viral_analysis
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - checkv>=1.0
+  - diamond>=2.1
+  - coverm>=0.7
+  - bwa>=0.7
+  - pandas>=2.0
+  - biopython>=1.81
+  - pip
+  - pip:
+    - taxopy>=0.12

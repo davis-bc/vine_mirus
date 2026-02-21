@@ -1,0 +1,9 @@
+name: genomad
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - genomad>=1.7
+  - pandas>=2.0
+  - biopython>=1.81
